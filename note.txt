@@ -1,0 +1,29 @@
+from kafka import KafkaProducer
+producer = KafkaProducer(bootstrap_servers=['127.0.0.1:9092'])
+sudo docker run mesosphere/kafka-client kafka-console-consumer.sh --zookeeper 10.176.32.1:11001 --bootstrap-server 10.176.32.1:10001 --topic test --from-beginning
+
+kafka-console-consumer.sh --bootstrap-server 10.176.32.1:9092 --topic test --from-beginning
+
+sudo docker run mesosphere/kafka-client kafka-topics.sh --list --zookeeper 10.176.32.1:11001
+consumer = KafkaConsumer(bootstrap_servers=['10.176.32.1:10001'])
+from kafka import KafkaConsumer
+consumer = KafkaConsumer(bootstrap_servers=['35.201.218.227:9092'])
+
+publish msg: docker run mesosphere/kafka-client kafka-console-producer.sh --broker-list 35.201.218.227:9092 --topic test
+docker run mesosphere/kafka-client kafka-console-consumer.sh --zookeeper 35.201.218.227:2181 --bootstrap-server 35.201.218.227:9092 --topic te1st --from-beginning
+
+docker run mesosphere/kafka-client kafka-topics.sh --describe --zookeeper 35.201.218.227:2181 --topic te1st
+
+(v) 開一個topic: kafka-topics.sh --create --zookeeper 10.176.32.1:11001 --replication-factor 1 --partitions 1 --topic test0922
+(v) 查看topic: sudo docker run mesosphere/kafka-client kafka-topics.sh --list --zookeeper 10.176.32.1:11001
+(u) publish msg: kafka-console-producer.sh --broker-list 10.176.32.1:10001 --topic test0922
+docker run mesosphere/kafka-client kafka-topics.sh --describe --zookeeper 10.176.32.1:11001 --topic te1st
+(u) kafka-console-consumer.sh --bootstrap-server 10.176.32.1:10001 --topic test0922 --from-beginning
+
+# 只透過zookeeper查看topic中的msg，error，問題出在:https://stackoverflow.com/questions/30606447/kafka-consumer-fetching-metadata-for-topics-failed
+(x) sudo docker run mesosphere/kafka-client kafka-console-consumer.sh --zookeeper 10.176.32.1:11001 --topic te1st --from-beginning
+
+(v) sudo docker run mesosphere/kafka-client kafka-topics.sh --describe --zookeeper 10.176.32.1:11001 --topic test0922
+
+# 透過
+(x) 查看published msg: sudo docker run mesosphere/kafka-client kafka-console-consumer.sh --zookeeper 10.176.32.1:11001 --bootstrap-server 10.176.32.1:10001 --topic test0922 --from-beginning
